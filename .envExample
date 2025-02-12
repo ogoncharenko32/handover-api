@@ -1,0 +1,6 @@
+PORT=3000
+
+MONGODB_USER=krapniknil32
+MONGODB_PASSWORD=etfxZhycK1sdRnDv
+MONGODB_URL=cluster0.rvvqc.mongodb.net
+MONGODB_DB=handoverDB
