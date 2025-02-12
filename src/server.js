@@ -1,12 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
+import cookieParser from 'cookie-parser';
 
 import { getEnvVar } from './utils/getEnvVar.js';
 import { notFoundHandler } from './midlewares/notFoundHandler.js';
 import { errorHandler } from './midlewares/errorHandler.js';
 
 import authRouter from './routers/auth.js';
+import browseRouter from './routers/browse.js';
 
 export const startServer = () => {
   const app = express();
@@ -21,8 +23,11 @@ export const startServer = () => {
     }),
   );
 
+  app.use(express.static('uploads'));
+  app.use(cookieParser());
+
   app.use('/auth', authRouter);
-  // app.use('/movies', moviesRouter);
+  app.use('/browse', browseRouter);
 
   app.use(notFoundHandler);
 
