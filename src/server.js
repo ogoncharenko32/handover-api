@@ -13,7 +13,15 @@ import browseRouter from './routers/browse.js';
 export const startServer = () => {
   const app = express();
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin:
+        // 'https://h2o-tracker-ui.vercel.app',
+        // 'https://remezovskyi2508.github.io/h2o-tracker-ui',
+        'http://localhost:5173',
+      credentials: true,
+    }),
+  );
   app.use(express.json());
   app.use(
     pino({
