@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
 import { emailRegexp } from '../../constants/index.js';
 
@@ -17,6 +17,10 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Groups',
     },
   },
   { versionKey: false, timestamps: true },

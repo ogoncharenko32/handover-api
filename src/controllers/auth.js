@@ -5,17 +5,22 @@ import { generateOAuthUrl } from '../utils/googleOAuth2.js';
 
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
+    // httpOnly: true,
     expires: session.refreshTokenValidUntil,
+    // secure: true,
+    // sameSite: 'none',
   });
 
   res.cookie('sessionId', session.id, {
-    httpOnly: true,
+    // httpOnly: true,
     expires: session.refreshTokenValidUntil,
+    // secure: true,
+    // sameSite: 'none',
   });
 };
 
 export const registerController = async (req, res) => {
+  console.log(req.body);
   await authServices.register(req.body);
 
   res.status(201).json({
@@ -62,7 +67,10 @@ export const loginWithGoogleController = async (req, res) => {
 };
 
 export const loginController = async (req, res) => {
+  const { email } = req.body;
   const session = await authServices.login(req.body);
+
+  const user = await authServices.getUser({ email: email });
 
   setupSession(res, session);
 
@@ -70,6 +78,10 @@ export const loginController = async (req, res) => {
     status: 200,
     message: 'Successfully login user',
     data: {
+      user: {
+        username: user.username,
+        email: user.email,
+      },
       accessToken: session.accessToken,
     },
   });
