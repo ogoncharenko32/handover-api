@@ -3,7 +3,7 @@ import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 const ticketSchema = new Schema(
   {
-    type: {
+    status: {
       type: String,
       required: true,
     },

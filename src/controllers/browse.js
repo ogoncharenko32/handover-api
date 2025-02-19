@@ -12,6 +12,7 @@ export const getTicketsController = async (req, res) => {
 
 export const addTicketController = async (req, res) => {
   const { _id, groupId } = req.user;
+  console.log(req.user);
   const data = await browseServices.addTicket({ userId: _id, groupId, ...req.body });
 
   res.status(200).json({
