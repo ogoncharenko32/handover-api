@@ -9,6 +9,8 @@ const authRouter = Router();
 
 authRouter.post('/register', validateBody(authRegisterSchema), ctrlWrapper(authControllers.registerController));
 
+authRouter.get('/get-groups', ctrlWrapper(authControllers.getGroupsController));
+
 authRouter.post('/login', validateBody(authLoginSchema), ctrlWrapper(authControllers.loginController));
 
 authRouter.get('/get-oauth-url', ctrlWrapper(authControllers.getGoogleOAuthUrlController));

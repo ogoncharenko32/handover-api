@@ -20,12 +20,56 @@ const setupSession = (res, session) => {
 };
 
 export const registerController = async (req, res) => {
-  console.log(req.body);
+  const { email, password } = req.body;
   await authServices.register(req.body);
+
+  const session = await authServices.login({ email, password });
+
+  const user = await authServices.getUser({ email: email });
+
+  setupSession(res, session);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully registered user',
+    data: {
+      user: {
+        username: user.username,
+        email: user.email,
+      },
+      accessToken: session.accessToken,
+    },
+  });
+};
+
+export const loginController = async (req, res) => {
+  const { email } = req.body;
+  const session = await authServices.login(req.body);
+
+  const user = await authServices.getUser({ email: email });
+
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully login user',
+    data: {
+      user: {
+        username: user.username,
+        email: user.email,
+      },
+      accessToken: session.accessToken,
+    },
+  });
+};
+
+export const getGroupsController = async (req, res) => {
+  const data = await authServices.getGroups();
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully found groups',
+    data,
   });
 };
 
@@ -61,27 +105,6 @@ export const loginWithGoogleController = async (req, res) => {
     status: 200,
     message: 'Successfully login with Google OAuth',
     data: {
-      accessToken: session.accessToken,
-    },
-  });
-};
-
-export const loginController = async (req, res) => {
-  const { email } = req.body;
-  const session = await authServices.login(req.body);
-
-  const user = await authServices.getUser({ email: email });
-
-  setupSession(res, session);
-
-  res.json({
-    status: 200,
-    message: 'Successfully login user',
-    data: {
-      user: {
-        username: user.username,
-        email: user.email,
-      },
       accessToken: session.accessToken,
     },
   });

@@ -32,6 +32,11 @@ const ticketSchema = new Schema(
       ref: 'Groups',
       required: true,
     },
+    shiftId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Groups',
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true },
 );
