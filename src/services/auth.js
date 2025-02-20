@@ -11,16 +11,11 @@ import SessionsCollection from '../db/models/Sessions.js';
 
 import { sendEmail } from '../utils/sendEmail.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
-import {
-  validateCode,
-  getUsernameFromGoogleTokenPayload,
-} from '../utils/googleOAuth2.js';
+import { validateCode, getUsernameFromGoogleTokenPayload } from '../utils/googleOAuth2.js';
 
-import {
-  accessTokenLifetime,
-  refreshTokenLifetime,
-} from '../constants/index.js';
+import { accessTokenLifetime, refreshTokenLifetime } from '../constants/index.js';
 import { TEMPLATES_DIR } from '../constants/index.js';
+import GroupsCollection from '../db/models/Groups.js';
 
 const emailTemplatePath = path.join(TEMPLATES_DIR, 'verify-email.html');
 
@@ -161,3 +156,5 @@ export const logout = async (sessionId) => {
 export const getUser = (filter) => UsersCollection.findOne(filter);
 
 export const getSession = (filter) => SessionsCollection.findOne(filter);
+
+export const getGroups = async () => await GroupsCollection.find();

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { handleSaveError, setUpdateSettings } from './hooks';
+import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 const groupSchema = new Schema({
   groupName: {
