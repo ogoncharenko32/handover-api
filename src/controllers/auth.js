@@ -151,6 +151,7 @@ export const getCurrectUserController = async (req, res) => {
         _id: data._id,
         username: data.username,
         email: data.email,
+        groupId: data.groupId,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
       },
