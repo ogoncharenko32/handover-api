@@ -12,7 +12,9 @@ export const getTickets = async (shiftId) => {
       //   { groupId },
       { shiftId },
     ],
-  }).sort({ ['isImportant']: 'desc' });
+  })
+    .sort({ ['isImportant']: 'desc' })
+    .sort({ ['createdAt']: 'asc' });
 
   return data;
 };
