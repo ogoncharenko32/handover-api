@@ -37,6 +37,7 @@ export const registerController = async (req, res) => {
       user: {
         username: user.username,
         email: user.email,
+        groupId: user.groupId,
       },
       accessToken: session.accessToken,
     },
@@ -58,6 +59,7 @@ export const loginController = async (req, res) => {
       user: {
         username: user.username,
         email: user.email,
+        groupId: user.groupId,
       },
       accessToken: session.accessToken,
     },
