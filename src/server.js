@@ -18,7 +18,7 @@ export const startServer = () => {
       origin:
       // 'https://h2o-tracker-ui.vercel.app',
       // 'https://remezovskyi2508.github.io/h2o-tracker-ui',
-        ['https://handover-app.vercel.app/',
+        ['https://handover-app.vercel.app',
           'http://localhost:5173'],
       credentials: true,
     }),
