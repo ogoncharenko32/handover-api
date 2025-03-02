@@ -1,4 +1,4 @@
-import { initMongoDB } from './db/initMongoDb.js';
+import { initMongoDB } from '../db/initMongoDb.js';
 import { startServer } from './server.js';
 
 const boostrap = async () => {
