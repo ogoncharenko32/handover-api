@@ -2,20 +2,21 @@ import createHttpError from 'http-errors';
 import * as authServices from '../services/auth.js';
 
 import { generateOAuthUrl } from '../utils/googleOAuth2.js';
+import { getSession, getUser } from '../services/auth.js';
 
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
-    // httpOnly: true,
+    httpOnly: true,
     expires: session.refreshTokenValidUntil,
-    // secure: true,
-    // sameSite: 'none',
+    secure: true,
+    sameSite: 'none',
   });
 
   res.cookie('sessionId', session.id, {
-    // httpOnly: true,
+    httpOnly: true,
     expires: session.refreshTokenValidUntil,
-    // secure: true,
-    // sameSite: 'none',
+    secure: true,
+    sameSite: 'none',
   });
 };
 
@@ -137,23 +138,45 @@ export const logoutController = async (req, res) => {
 };
 
 export const getCurrentUserController = async (req, res) => {
-  const { refreshToken, sessionId } = req.cookies;
-  if (!refreshToken && !sessionId) {
-    throw createHttpError(401, 'token or session id not found');
+  // const { refreshToken, sessionId } = req.cookies;
+  // if (!refreshToken && !sessionId) {
+  //   throw createHttpError(401, 'token or session id not found');
+  // }
+  // const { userId } = await authServices.getSession({ _id: sessionId, refreshToken: refreshToken });
+
+  const authHeader = req.get('Authorization');
+  const [bearer, accessToken] = authHeader.split(' ');
+  if (bearer !== 'Bearer') {
+    createHttpError(401, 'Header must be Bearer type');
   }
-  const { userId } = await authServices.getSession({ _id: sessionId, refreshToken: refreshToken });
-  if (userId) {
-    const data = await authServices.getUser({ _id: userId });
+
+  const session = await getSession({ accessToken });
+  if (!session) {
+    createHttpError(401, 'Session not found');
+  }
+
+  if (Date.now() > session.accessTokenValidUntil) {
+    createHttpError(401, 'Access token expired');
+  }
+
+  const user = await getUser({ _id: session.userId });
+  if (!user) {
+    createHttpError(401, 'User not found');
+  }
+
+
+  if (user) {
+    // const data = await authServices.getUser({ _id: userId });
     res.status(200).json({
       status: 200,
       message: 'Logged user returned',
       data: {
-        _id: data._id,
-        username: data.username,
-        email: data.email,
-        groupId: data.groupId,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        groupId: user.groupId,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
     });
   }
