@@ -65,7 +65,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "lint": "eslint src/**/*.js",
-    "start": "node src/index.js && ls dist"
+    "start": "node ./src/index.js && ls dist"
   },
   "keywords": [],
   "bugs": {
