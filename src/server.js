@@ -19,7 +19,7 @@ export const startServer = () => {
       // 'https://h2o-tracker-ui.vercel.app',
       // 'https://remezovskyi2508.github.io/h2o-tracker-ui',
         ['https://handover-app.vercel.app',
-          'http://localhost:5173', 'http://159.224.183.45'],
+          'http://localhost:5173', 'http://159.224.183.45', 'http://192.168.100.124'],
       credentials: true,
     }),
   );
